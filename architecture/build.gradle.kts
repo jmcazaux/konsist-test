@@ -6,6 +6,9 @@ group = "com.ironbird"
 version = "1.0-SNAPSHOT"
 
 repositories {
+    // Konsist snapshot repository
+    maven("https://s01.oss.sonatype.org/content/repositories/snapshots/")
+
     mavenCentral()
 }
 
@@ -15,7 +18,7 @@ dependencies {
     testImplementation(project(":app"))
 
     testImplementation(kotlin("test"))
-    testImplementation("com.lemonappdev:konsist:0.16.1")
+    testImplementation("com.lemonappdev:konsist:0.17.0-SNAPSHOT")
     testImplementation("io.kotest:kotest-runner-junit5:5.9.1")
 }
 
