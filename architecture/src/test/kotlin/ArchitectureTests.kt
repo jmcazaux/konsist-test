@@ -2,6 +2,7 @@ import com.lemonappdev.konsist.api.Konsist
 import com.lemonappdev.konsist.api.architecture.KoArchitectureCreator.assertArchitecture
 import com.lemonappdev.konsist.api.architecture.Layer
 import io.kotest.core.spec.style.FreeSpec
+import io.kotest.core.test.TestScope
 
 class ArchitectureTests: FreeSpec({
 
@@ -16,7 +17,7 @@ class ArchitectureTests: FreeSpec({
     // This fails (as expected)
     // com.ironbird.app.Main.kt imports com.ironbird.lib.ia.NumberGuesser
     "app should not depend on lib" {
-        scope.assertArchitecture {
+        scope.assertArchitecture(testName = koTestName) {
             appLayer.doesNotDependOn(libLayer)
         }
     }
@@ -24,7 +25,7 @@ class ArchitectureTests: FreeSpec({
     // This should fail.
     // com.ironbird.app.Main.kt imports com.ironbird.lib.ia.NumberGuesser
     "app should depend on nothing" {
-        scope.assertArchitecture {
+        scope.assertArchitecture(testName = koTestName) {
             appLayer.dependsOnNothing()
         }
         // Or this...
@@ -36,7 +37,7 @@ class ArchitectureTests: FreeSpec({
     // This should fail.
     // com.ironbird.lib.ia.NumberGuesser does NOT use anything in com.ironbird.app.* (it is the other way around)
     "lib should depend on app" {
-        scope.assertArchitecture {
+        scope.assertArchitecture(testName = koTestName) {
             libLayer.dependsOn(appLayer)
         }
         //Or this
@@ -46,3 +47,6 @@ class ArchitectureTests: FreeSpec({
 
     }
 })
+
+val TestScope.koTestName: String
+    get() = this.testCase.name.testName
